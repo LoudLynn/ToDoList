@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="356.0" prefWidth="678.0" style="-fx-background-color: white; -fx-background-radius: 15,10;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="brief8.todolist.LoginController">
+   <children>
+      <ImageView fitHeight="249.0" fitWidth="331.0" layoutX="32.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Checklist-amico.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="41.0" layoutY="288.0" text="Organizing is a journey, not a destination" textFill="#455a64">
+         <font>
+            <Font name="Garamond Bold" size="14.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="-54.0" layoutY="254.0" pickOnBounds="true" preserveRatio="true" rotate="129.8" AnchorPane.bottomAnchor="-30.0" AnchorPane.leftAnchor="-54.0">
+         <image>
+            <Image url="@imageingreentiroi43.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="204.0" fitWidth="218.0" layoutX="528.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" rotate="-83.7" AnchorPane.bottomAnchor="-28.941818237304688" AnchorPane.rightAnchor="-68.0">
+         <image>
+            <Image url="@imagelkfgl.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="121.0" fitWidth="226.0" layoutX="-43.0" layoutY="-26.0" pickOnBounds="true" preserveRatio="true" rotate="160.3" AnchorPane.leftAnchor="-43.0" AnchorPane.topAnchor="-26.0">
+         <image>
+            <Image url="@imageklfjlkd;eee3.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="SignInPane" layoutX="385.0" layoutY="24.0" prefHeight="293.0" prefWidth="168.0" visible="false">
+         <children>
+            <Label layoutX="57.0" text="Sign in">
+               <font>
+                  <Font name="Sakkal Majalla Bold" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="SignInUserName" layoutX="9.0" layoutY="79.0" promptText="user name" />
+            <Button fx:id="LoginBtn" layoutX="63.0" layoutY="224.0" mnemonicParsing="false" onAction="#LoginSignInOnClick" style="-fx-background-color: #37474F; -fx-background-radius: 10,15;" text="Login" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Sakkal Majalla" size="14.0" />
+               </font>
+            </Button>
+            <PasswordField fx:id="SignInPassword" layoutX="10.0" layoutY="134.0" promptText="Password" />
+            <Label fx:id="errorSignIn" ellipsisString="" layoutX="9.0" layoutY="166.0" minWidth="-Infinity" prefHeight="25.0" prefWidth="149.0" textFill="RED" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="SignUpPane" layoutX="368.0" layoutY="24.0" prefHeight="293.0" prefWidth="200.0">
+         <children>
+            <Label layoutX="71.0" text="Sign up">
+               <font>
+                  <Font name="Sakkal Majalla Bold" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="SignUpLastName" layoutX="26.0" layoutY="74.0" promptText="Last name" />
+            <TextField fx:id="SignUpFirstName" layoutX="26.0" layoutY="110.0" promptText="First name" />
+            <TextField fx:id="SignUpUserName" layoutX="26.0" layoutY="145.0" promptText="User name" />
+            <Button fx:id="SignUpBtn" layoutX="74.0" layoutY="224.0" mnemonicParsing="false" onAction="#SignUpOnClick" style="-fx-background-color: #37474F; -fx-background-radius: 10,15;" text="Sign up" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Sakkal Majalla" size="14.0" />
+               </font>
+            </Button>
+            <PasswordField fx:id="SignUpPassword" layoutX="25.0" layoutY="181.0" promptText="Password" />
+            <Button fx:id="SignInMove" layoutX="142.0" layoutY="270.0" mnemonicParsing="false" onAction="#MoveToSignIn" style="-fx-background-color: white;" text="Sign in" textFill="#041198">
+               <font>
+                  <Font name="Arial" size="11.0" />
+               </font>
+               <padding>
+                  <Insets right="2.0" />
+               </padding>
+            </Button>
+            <Label layoutX="26.0" layoutY="270.0" text="Already have account?" textFill="#747373">
+               <font>
+                  <Font name="Arial" size="11.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
