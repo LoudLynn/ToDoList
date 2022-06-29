@@ -1,12 +1,8 @@
 package Classes;
 
-import brief8.todolist.HelloController;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Iterator;
 
 public class Task {
 
@@ -14,7 +10,7 @@ public class Task {
   private   String Title;
   private   String Description;
   private   String Status;
-  private   Date Deadline;
+  private   LocalDate Deadline;
   private Integer Idct;
   private Integer Idur;
 
@@ -59,11 +55,11 @@ public class Task {
   }
 
 
-  public Date getDeadline() {
+  public LocalDate getDeadline() {
     return Deadline;
   }
 
-  public void setDeadline(Date deadline) {
+  public void setDeadline(LocalDate deadline) {
     this.Deadline = deadline;
   }
 
@@ -102,16 +98,21 @@ public class Task {
   public Task(Integer idTask) {
     IdTask = idTask;
   }
-  public Task(String title, String description, String status, Date deadline, Integer idct) {
+  public Task(String title, String description, String status, String deadline, Integer idct) {
     super();
     this.Title = title;
     this.Description = description;
     this.Status = status;
-    this.Deadline = deadline;
+    this.Deadline = LocalDate.parse(deadline);
     this.Idct = idct;
   }
+  public Task(String title,  String deadline) {
+    super();
+    this.Title = title;
+    this.Deadline = LocalDate.parse(deadline);
+  }
 
-  public Task(String title, String description, String status, Date deadline, Integer idct, Integer idur, Button update, Button edit) {
+  public Task(String title, String description, String status, LocalDate deadline, Integer idct, Integer idur, Button update, Button edit) {
     this.Title = title;
     this.Description = description;
     this.Status = status;
@@ -122,18 +123,18 @@ public class Task {
     this.Edit = edit;
   }
 
-  public Task(Integer idTask, String title, String description, String status, Date deadline, Integer idct, Integer idur, Button update, Button edit) {
+  public Task(Integer idTask, String title, String description, String status, String deadline, Integer idct, Integer idur, Button update, Button edit) {
     this.IdTask = idTask;
     this.Title = title;
     this.Description = description;
     this.Status = status;
-    this.Deadline = deadline;
+    this.Deadline = LocalDate.parse(deadline);
     this.Idct = idct;
     this.Idur = idur;
     this.Update = update;
     this.Edit = edit;
 
-    update.setOnAction((e) -> {
+  /*  update.setOnAction((e) -> {
       ObservableList<Task> tasks = HelloController.table_info.getSelectionModel().getSelectedItems();
       Iterator var3 = tasks.iterator();
 
@@ -145,12 +146,12 @@ public class Task {
           System.out.println("Description: " + task.getDescription());
           System.out.println("Status: " + task.getStatus());
           System.out.println("Deadline: " + task.getDeadline());
-          /*System.out.println("IdCat: " + task.getIdct());
-          System.out.println("IdUser: " + task.getIdur());*/
+          *//*System.out.println("IdCat: " + task.getIdct());
+          System.out.println("IdUser: " + task.getIdur());*//*
         }
       }
 
-    });
+    });*/
   }
 
   @Override

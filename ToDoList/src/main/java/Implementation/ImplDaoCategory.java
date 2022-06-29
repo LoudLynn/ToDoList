@@ -22,7 +22,7 @@ public class ImplDaoCategory implements Dao<Category>, LoadComboxCategories {
         cn= Connect.getConnection();
 
         try {
-            String sql="insert into Users (namecat) values (?)";
+            String sql="insert into category (namecat) values (?)";
             ps =cn.prepareStatement(sql);
             ps.setString(1,item.getNameCat());
             ps.executeUpdate();
@@ -71,8 +71,12 @@ public class ImplDaoCategory implements Dao<Category>, LoadComboxCategories {
 
         try {
             String sql="select * from Category ";
-            ps =cn.prepareStatement(sql);
-            ps.executeQuery();
+            stm = (Statement) cn.createStatement();
+            rs= stm.executeQuery(sql);
+            while(rs.next()){
+                item.setIdCat(rs.getInt("max") + 1);
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,32 +85,33 @@ public class ImplDaoCategory implements Dao<Category>, LoadComboxCategories {
 
     @Override
     public ObservableList<Category> getList() {
-        ObservableList<Category> CategoryList = FXCollections.observableArrayList();
+        ObservableList<Category> GetList = FXCollections.observableArrayList();
         cn= Connect.getConnection();
+        Category category;
         try{
-            /*String sql="select * from Category ";
-            ps =cn.prepareStatement(sql);
-            rs=ps.executeQuery();*/
             rs = cn.createStatement().executeQuery("select * from Category");
-            Category category;
+
             while(rs.next()){
                 category =new Category(rs.getInt("idCat"),rs.getString("nameCat"));
-                CategoryList.add(category);
+                GetList.add(category);
             }
 
         }catch(Exception e){
             e.printStackTrace();
         }
-        return CategoryList;
+        return GetList;
     }
 
     @Override
-    public void LoadCategoriesComBox(Category category) {
-        String query="select nameCat from Category";
+    public void LoadCategoriesComBox(Category category,ObservableList<Category> categoriesList) {
+        String query="select * from Category";
+        cn= Connect.getConnection();
+
         try{
             rs = cn.createStatement().executeQuery(query);
             while(rs.next()){
-                category =new Category(rs.getString("nameCat"));
+                category =new Category(rs.getInt("idcat"),rs.getString("nameCat"));
+                categoriesList.add(category);
             }
 
         }catch(Exception e){

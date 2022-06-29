@@ -36,37 +36,13 @@ public class ImplDaoUser implements Dao<Users>, SignUpIn {
 
     @Override
     public void delete(Users item) {
-        cn= Connect.getConnection();
+        throw new AssertionError("No deleting for users");
 
-        try {
-            String sql="delete from Users where UserName = ? and Pwd=?)";
-            ps =cn.prepareStatement(sql);
-            ps.setString(1,item.getLogin());
-            ps.setString(2,item.getPwd());
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void update(Users item) {
-        cn= Connect.getConnection();
-
-        try {
-            String sql="update Users set lastname=?,firstname=?,username=?,pwd=? where iduser =?";
-            ps =cn.prepareStatement(sql);
-            ps.setString(1,item.getLastName());
-            ps.setString(2,item.getLastName());
-            ps.setString(3,item.getLogin());
-            ps.setString(4,item.getPwd());
-            ps.setInt(5,item.getIdUser());
-            ps.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        throw new AssertionError("No updating for users");
     }
 
     @Override
@@ -79,7 +55,13 @@ public class ImplDaoUser implements Dao<Users>, SignUpIn {
         ps.setString(1,item.getLogin());
         ps.setString(2,item.getPwd());
         rs=ps.executeQuery();
-
+        while(rs.next()){
+            item.setLastName(rs.getString("lastname"));
+            item.setFirstName(rs.getString("firstname"));
+            item.setLogin(rs.getString("username"));
+            item.setPwd(rs.getString("pwd"));
+        }
+        rs.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -115,8 +97,24 @@ public class ImplDaoUser implements Dao<Users>, SignUpIn {
     }
 
     @Override
-    public void SignIn(Users user) {
-
+    public void SignIn(Users user,String login,String pwd) {
+        String sql="select count(1) from users where userName=? and pwd=? ";
+        Connection cn = Connect.getConnection();
+        try{
+            ps =cn.prepareStatement(sql);
+            ps.setString(1,login);
+            ps.setString(2,pwd);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                user.setLastName(rs.getString("lastname"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLogin(rs.getString("username"));
+                user.setPwd(rs.getString("pwd"));
+            }
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -27,13 +27,13 @@ public class ImplDaoTask implements Dao <Task>, DaoLoad {
             preparedStmt.setString (1, item.getTitle());
             preparedStmt.setString (2, item.getDescription());
             preparedStmt.setString (3, item.getStatus());
-            preparedStmt.setDate (4, Date.valueOf(item.getDeadline().toString()));
+            preparedStmt.setDate (4, Date.valueOf(item.getDeadline()));
             preparedStmt.setInt (5, item.getIdct());
             preparedStmt.setInt (6, item.getIdur());
 
             System.out.println(preparedStmt);
             preparedStmt.executeUpdate();
-            //cn.close();
+            preparedStmt.close();
 
             System.out.println ("Task inserted successfully");
 
@@ -53,7 +53,7 @@ public class ImplDaoTask implements Dao <Task>, DaoLoad {
 
             preparedStmt.setString(1, item.getTitle());
             preparedStmt.execute();
-            // cn.close();
+            preparedStmt.close();
 
 
         } catch (Exception e) {
@@ -65,16 +65,52 @@ public class ImplDaoTask implements Dao <Task>, DaoLoad {
     @Override
     public void update(Task item) {
 
+        Connection cn = Connect.getConnection();
+
+        try {
+            String query = "update Task set Title=?, Description=?, Status=?, Deadline=?, Idct=?,idur=? where IdTask = ?";
+            PreparedStatement preparedStmt = cn.prepareStatement(query);
+
+            preparedStmt.setString (1, item.getTitle());
+            preparedStmt.setString (2, item.getDescription());
+            preparedStmt.setString (3, item.getStatus());
+            preparedStmt.setDate (4, Date.valueOf(item.getDeadline()));
+            preparedStmt.setInt (5, item.getIdct());
+            preparedStmt.setInt (6, item.getIdur());
+
+            preparedStmt.setString(7, item.getTitle());
+            preparedStmt.execute();
+            preparedStmt.close();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void select(Task item) {
+        Connection cn = Connect.getConnection();
 
+        try {
+            String query = "Select max(idtask) from task";
+
+            stm = (Statement) cn.createStatement();
+            rs= stm.executeQuery(query);
+
+            while (rs.next()) {
+                item.setIdTask(rs.getInt("max") + 1);
+            }
+
+            rs.close();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ObservableList<Task> getList() {
-            ObservableList<Task> taskList = FXCollections.observableArrayList();
+            ObservableList<Task> GetList = FXCollections.observableArrayList();
             cn= Connect.getConnection();
             String query="select * from Task";
             Statement st;
@@ -83,54 +119,46 @@ public class ImplDaoTask implements Dao <Task>, DaoLoad {
                 st=cn.createStatement();
                 rs=st.executeQuery(query);
                 while(rs.next()){
-                    Task ts =new Task(rs.getString("Title"),rs.getString("Description"),rs.getString("Status"),rs.getDate("Deadline"),rs.getInt("Idct"));
-                    taskList.add(ts);
+                    Task ts =new Task(rs.getString("Title"),rs.getString("Description"),rs.getString("Status"),rs.getString("Deadline"),rs.getInt("Idct"));
+                    GetList.add(ts);
                 }
 
             }catch(Exception e){
                 e.printStackTrace();
             }
-            return taskList;
+            return GetList;
+
 
         }
-
     @Override
-    public String LoadToDoList(Task task) {
+    public void LoadToDoList(Task task,ObservableList<Task> tasksToDoList) {
         Connection cn = Connect.getConnection();
-
+        String query = "select * from Task where status = To do";
         try {
             stm=cn.createStatement();
-            String query = "select * from Task where status = To do";
-
             rs=stm.executeQuery(query);
             while(rs.next()){
-                //task.setTitle(rs.getString("title"));
-
-                String title=rs.getString("title");
-                String deadline=rs.getString("deadline");
-
-
-
+                task =new Task(rs.getString("title"),rs.getString("deadline"));
+                tasksToDoList.add(task);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
     }
 
     @Override
-    public String LoadDoingList(Task task) {
+    public void LoadDoingList(Task task,ObservableList<Task> tasksDoingList) {
         Connection cn = Connect.getConnection();
+        String query = "select * from Task where status = Doing";
 
         try {
             stm=cn.createStatement();
-            String query = "select * from Task where status = Doing";
 
             rs=stm.executeQuery(query);
             while(rs.next()){
-                String title=rs.getString("title");
-                String deadline=rs.getString("deadline");
+                task =new Task(rs.getString("title"),rs.getString("deadline"));
+                tasksDoingList.add(task);
 
 
             }
@@ -138,30 +166,28 @@ public class ImplDaoTask implements Dao <Task>, DaoLoad {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
     }
 
     @Override
-    public String LoadDone(Task task) {
+    public void LoadDone(Task task,ObservableList<Task> tasksDoneList) {
         Connection cn = Connect.getConnection();
-        String ListOut ;
+        String query = "select * from Task where status = Done";
+
 
         try {
             stm=cn.createStatement();
-            String query = "select * from Task where status = Done";
-
             rs=stm.executeQuery(query);
             while(rs.next()){
-                String title=rs.getString("title");
-                String deadline=rs.getString("deadline");
-                return  title + "\""+deadline;
+                task =new Task(rs.getString("title"),rs.getString("deadline"));
+                tasksDoneList.add(task);
             }
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
     }
     public String LoadUserName(Task task){
         return null;

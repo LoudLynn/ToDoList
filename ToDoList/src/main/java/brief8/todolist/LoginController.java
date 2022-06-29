@@ -54,7 +54,9 @@ public class LoginController implements Initializable {
 
     public ImplDaoUser imu = new ImplDaoUser();
     public Users user = new Users();
-
+    public static String FirstName;
+    public static String LastName;
+    public static String UserName;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -93,6 +95,10 @@ public class LoginController implements Initializable {
             user.setPwd(SignUpPassword.getText());
 
             imu.insert(user);
+            FirstName=user.getFirstName();
+            LastName=user.getLastName();
+            UserName=user.getLogin();
+
 
             SignUpBtn.getScene().getWindow().hide();
             DashBoard();
@@ -114,12 +120,13 @@ public class LoginController implements Initializable {
             errorSignIn.setText("Password is empty");
             return;
         }
+        String login=SignInUserName.getText();
+        String pwd=SignInPassword.getText();
         try {
-
-            user.setLogin(SignInUserName.getText());
-            user.setPwd(SignInPassword.getText());
-
-            imu.select(user);
+            imu.SignIn(user,login,pwd);
+            FirstName=user.getFirstName();
+            LastName=user.getLastName();
+            UserName=SignInUserName.getText();
 
             LoginBtn.getScene().getWindow().hide();
             DashBoard();
@@ -133,7 +140,7 @@ public class LoginController implements Initializable {
 
     public void DashBoard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.DECORATED);
             stage.setScene(new Scene(root));
